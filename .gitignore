@@ -3,3 +3,5 @@ venv/
 .env
 src/output/
 src/input/
+
+.DS_Store

@@ -1,11 +1,13 @@
 
-## How to install env
+## How to install env?
 
 ```bash
 
 source venv/bin/activate
 pip install --no-binary :all: pyodbc
 odbcinst -j
+
+pip install -r requirements.txt
 
 ```
 
