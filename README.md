@@ -22,5 +22,6 @@ cd src
 
 PYTHONPATH='.' luigi --module item_master  ItemMaster --x 123 --y 456 --local-scheduler
 
+PYTHONPATH='.' luigi --module product_attribute  ProductAttribute --local-scheduler
 
 ```

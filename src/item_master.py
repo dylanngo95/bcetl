@@ -7,29 +7,25 @@ import dotenv
 
 
 class ItemMaster(luigi.Task):
-    dotenv.load_dotenv()
 
+    # Load environment
+    dotenv.load_dotenv()
     MSSQL_SERVER = os.getenv('MSSQL_SERVER')
     DATABASE = os.getenv('DATABASE')
     DB_USERNAME = os.getenv('DB_USERNAME')
     DB_PASSWORD = os.getenv('DB_PASSWORD')
     MSSQL_DRIVER = os.getenv('MSSQL_DRIVER')
+
     x = luigi.IntParameter()
     y = luigi.IntParameter(default=45)
 
     def run(self):
-        # Configuration
-        SERVER = self.MSSQL_SERVER
-        DATABASE = self.DATABASE
-        DB_USERNAME = self.DB_USERNAME
-        DB_PASSWORD = self.DB_PASSWORD
-        MSSQL_DRIVER = self.MSSQL_DRIVER
-
-        # Create the connection
-        connectionString = f'DRIVER={MSSQL_DRIVER};SERVER={SERVER};DATABASE={DATABASE};UID={DB_USERNAME};PWD={DB_PASSWORD}'
+        # Create a new connection
+        connectionString = f'DRIVER={self.MSSQL_DRIVER};SERVER={self.MSSQL_SERVER};DATABASE={self.DATABASE};UID={self.DB_USERNAME};PWD={self.DB_PASSWORD}'
         conn = pyodbc.connect(connectionString)
         cursor = conn.cursor()
 
+        # Incremental export
         SQL_QUERY_ITEM_MASTER = """
         SELECT
             itemmaster.NO_ as productId,
@@ -44,16 +40,12 @@ class ItemMaster(luigi.Task):
             itemmaster.[Unit Volume] as unitVolume
         FROM
             [Demo Database BC (23-0)].dbo.[CRONUS USA, Inc_$Item$437dbf0e-84ff-417a-965d-ed2bb9650972] itemmaster
-        
-            
-        SELECT * FROM 
-            [Demo Database BC (23-0)].dbo.Sale
+        WHERE DATEDIFF(DAY, DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()) - 1, 0), itemmaster.[Last DateTime Modified]) > 0
         """
 
-        # pd.set_option('display.max_columns', None)
-        # pd.set_option('display.max_rows', None)
         df_item_master = pd.read_sql(SQL_QUERY_ITEM_MASTER, conn)
 
+        # export all, need to fix the duplicate productId
         SQL_QUERY_SALES_PRICE = """
         SELECT
             salesprice.[Item No_] as productId,
