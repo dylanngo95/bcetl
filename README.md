@@ -8,7 +8,7 @@ python -m venv venv
 
 source venv/bin/activate
 
-# In Mac M1
+# In the Mac M1
 pip install --no-binary :all: pyodbc
 odbcinst -j
 
@@ -30,6 +30,10 @@ Go to URL: http://localhost:8082/
 source venv/bin/activate
 
 cd src
+
+cp .env_sample .env
+
+# Change the MSSQL configuration
 
 PYTHONPATH='.' luigi --module item_master ItemMaster --x 123 --y 456 --local-scheduler
 
