@@ -19,6 +19,9 @@ class ItemMaster(luigi.Task):
     x = luigi.IntParameter()
     y = luigi.IntParameter(default=45)
 
+    def output(self):
+        return luigi.LocalTarget('log/item_master.txt')
+
     def run(self):
         # Create a new connection
         connectionString = f'DRIVER={self.MSSQL_DRIVER};SERVER={self.MSSQL_SERVER};DATABASE={self.DATABASE};UID={self.DB_USERNAME};PWD={self.DB_PASSWORD}'

@@ -21,7 +21,12 @@ class ProductAttribute(luigi.Task):
     conn = pyodbc.connect(connectionString)
     cursor = conn.cursor()
 
+    def output(self):
+        return luigi.LocalTarget('log/product_attribute.txt')
+
     def run(self):
+        with self.output().open('w') as f:
+            f.write('{date} : Start Export Product Attribute\n'.format(date=datetime.datetime.now()))
 
         # Incremental export
         SQL_QUERY_PRODUCT_ATTRIBUTE = """
