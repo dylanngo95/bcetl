@@ -1,20 +1,31 @@
+The BC-ETL project is a demo project, designed to export data from Dynamic Business Central 365 using Python scripts.
 
-## How to install env?
+## How to install environment?
 
 ```bash
 
 python -m venv venv
 
 source venv/bin/activate
+
+# In Mac M1
 pip install --no-binary :all: pyodbc
 odbcinst -j
 
+# In the Linux
 pip install -r requirements.txt
 
 ```
 
 ## How to run a project?
 ```bash
+# Run luigi dashboard
+
+luigid &
+
+Go to URL: http://localhost:8082/
+
+# Run tasks
 
 source venv/bin/activate
 
