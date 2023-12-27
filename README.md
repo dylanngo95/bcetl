@@ -12,13 +12,15 @@ source venv/bin/activate
 pip install --no-binary :all: pyodbc
 odbcinst -j
 
-# In the Linux
 pip install -r requirements.txt
 
 ```
 
 ## How to run a project?
 ```bash
+
+source venv/bin/activate
+
 # Run luigi dashboard
 
 luigid &
@@ -26,8 +28,6 @@ luigid &
 Go to URL: http://localhost:8082/
 
 # Run tasks
-
-source venv/bin/activate
 
 cd src
 
