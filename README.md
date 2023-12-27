@@ -3,6 +3,8 @@
 
 ```bash
 
+python -m venv venv
+
 source venv/bin/activate
 pip install --no-binary :all: pyodbc
 odbcinst -j
@@ -18,7 +20,7 @@ source venv/bin/activate
 
 cd src
 
-PYTHONPATH='.' luigi --module item_master  MyTask --x 123 --y 456 --local-scheduler
+PYTHONPATH='.' luigi --module item_master  ItemMaster --x 123 --y 456 --local-scheduler
 
 
 ```

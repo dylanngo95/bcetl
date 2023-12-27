@@ -5,3 +5,5 @@ src/output/
 src/input/
 
 .DS_Store
+
+src/__pycache__
